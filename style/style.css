@@ -1,0 +1,86 @@
+/**
+//Style Guide
+//
+div {
+width: 73px;
+height: 73px;
+border: 1px solid white;
+margin: 10px;
+}
+
+div#type {
+width: 400px;
+border: none;
+position: fixed;
+top: 0px;
+left: 130px;
+}
+
+h1 {
+	font-family: Tinos;
+	font-size: 36px;
+}
+
+p {
+	font-size: 18px;
+	font-family: Josefin Sans;
+}
+
+h3 {
+	font-size: 24px;
+	font-family: Josefin Sans;
+}
+
+footer {
+	font-size: 12px;
+	font-family: Josefin Sans;
+}
+
+// Main Primary color
+#color1 { background-color: #704099 } 
+#color2 { background-color: #A677CF }
+#color3 { background-color: #FFBC6F }	
+#color4 { background-color: #B1F76A }
+#color5 { background-color: #86D733 }
+*/
+
+
+header {
+	height: 100px;
+	width: 102%;
+	background-color: #704099;
+	position: fixed;
+	margin: -8px;
+}
+
+div.logo {
+	font-family: Coda;
+	font-size: 48px;
+	color: white;
+	font-weight: 800;
+	margin: 15px;
+	text-shadow: 2px 2px 0px #A677CF , 
+							-2px -2px 0px #A677CF , 
+							 2px -2px 0px #A677CF , 
+							 -2px 2px 0px #A677CF ;
+}
+
+div.navbar {
+	font-size: 18px;
+	font-family: Josefin Sans;
+	color: white;
+	height: 30px;
+	background-color: #A677CF;
+}
+
+div.navbar a {
+	color: rgb(81, 81, 81);
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 30px 0 30px;
+	min-width: 80px;
+	background-color: #FFBC6F;
+	height: 100%;
+	text-align: center;
+	border-radius: 0px 0px 15px 15px;
+}
