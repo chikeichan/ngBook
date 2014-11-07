@@ -7,13 +7,19 @@
 		<td>Description</td>
 	</tr>
 	<tr>
-		<td><input type='text' ng-model='gl'></td>
+		<td>
+				<select name='glCode' ng-model='glCode'>
+					<option value='{{gl.code}}' ng-repeat='gl in gls | orderBy: "code"'>{{gl.code + '-' + gl.desc}}</option>
+		</td>
 		<td><input type='number' ng-model='debit' ng-change='zero("debit","credit")'></td>
 		<td><input type='number' ng-model='credit' ng-change='zero("credit","debit")'></td>
 		<td><input type='text' ng-model='desc'></td>
 	</tr>
 	<tr>
-		<td><input type='text' ng-model='gl2'></td>
+		<td>				
+				<select name='glCode' ng-model='glCode2'>
+					<option value='{{gl.code}}' ng-repeat='gl in gls | orderBy: "code"'>{{gl.code + '-' + gl.desc}}</option>
+		</td>
 		<td><input type='number' ng-model='debit2' ng-change='zero("debit2","credit2")'></td>
 		<td><input type='number' ng-model='credit2' ng-change='zero("credit2","debit2")'></td>
 		<td><input type='text' ng-model='desc2'></td>

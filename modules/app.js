@@ -18,9 +18,25 @@ app.config(function($routeProvider){
 });
 
 var transactions=[];
+var gls=[{code: 1100,
+					desc: 'Cash',
+					type: 'Asset'},
+					{code: 2100,
+					desc: 'Accounts Payable',
+					type: 'Liability'},
+					{code: 3100,
+					desc: 'Contributions',
+					type: 'Equity'},
+					{code: 4000,
+					desc: 'Revenue',
+					type: 'Income'},
+					{code: 5000,
+					desc: 'Cost of Goods',
+					type: 'Expense'}];
 
 app.controller('controller', function($scope){
 	$scope.transactions = transactions;
+	$scope.gls = gls;
 
 	$scope.addTransaction = function(){
 		var offBalance = $scope.debit+$scope.debit2-$scope.credit-$scope.credit2;
@@ -30,7 +46,7 @@ app.controller('controller', function($scope){
 		}
 
 		var transaction = {
-			gl: $scope.gl,
+			glCode: $scope.glCode,
 			debit: $scope.debit,
 			credit: $scope.credit,
 			desc: $scope.desc,
@@ -38,18 +54,18 @@ app.controller('controller', function($scope){
 		transactions.push(transaction);
 
 		var transaction = {
-			gl: $scope.gl2,
+			glCode: $scope.glCode2,
 			debit: $scope.debit2,
 			credit: $scope.credit2,
 			desc: $scope.desc2
 		}
 		transactions.push(transaction);
 
-		$scope.gl = null;
+		$scope.glCode = null;
 		$scope.debit = null;
 		$scope.credit = null;
 		$scope.desc = null;
-		$scope.gl2 = null;
+		$scope.glCode2 = null;
 		$scope.debit2 = null;
 		$scope.credit2 = null;
 		$scope.desc2 = null;
@@ -60,6 +76,48 @@ app.controller('controller', function($scope){
 	$scope.zero = function(current,target){
 		if($scope[current]){
 			$scope[target] = null;
+		}
+	}
+
+	$scope.submitGL = function(){
+		var gl = {
+			code: $scope.glCode,
+			desc: $scope.glDesc,
+			type: $scope.glType
+		}
+		var index;
+
+		var existing = _.find(gls, function(glAccount, i){
+			if( glAccount.code === gl.code){
+				index = i;
+			}
+			return glAccount.code === gl.code;
+		});
+
+		if(!existing){
+			gls.push(gl);
+			console.log(gls);
+		} else {
+			gls[index] = gl;
+		}
+
+		$scope.glCode = null;
+		$scope.glDesc = null;
+		$scope.glType = null;
+
+	}
+
+	$scope.searchGL = function(){
+		var query = $scope.glCode;
+		var gl = _.find(gls, function(gl){
+			return gl.code === query;
+		});
+		if(gl){
+			$scope.glDesc = gl.desc;
+			$scope.glType = gl.type;
+		} else {
+			$scope.glDesc = null;
+			$scope.glType = null;
 		}
 	}
 

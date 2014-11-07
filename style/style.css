@@ -49,6 +49,11 @@ body {
 	font-family: Josefin Sans;
 }
 
+h1 {
+	display: inline-block;
+	font-family: Tinos;
+}
+
 div.logo {
 	height: 100px;
 	width: 102%;
@@ -121,7 +126,6 @@ table {
 }
 
 table tr.header {
-	font-family: Tinos;
 	font-size: 20px;
 }
 
