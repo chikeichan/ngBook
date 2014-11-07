@@ -89,7 +89,7 @@ header a {
 	color: white;
 }
 
-nav.navbar>div#tab {
+nav.navbar>div.tab {
 	padding: 5px 30px 0 30px;
 	min-width: 100px;
 	background-color: #B1F76A;
@@ -99,11 +99,12 @@ nav.navbar>div#tab {
 	box-shadow: 0px 0px 5px grey;
 	height: 30px;
 	position: relative;
-	top: 0px;
+	top: -26px;
 	text-align: center;
 	margin: 0 0 0 20px;
-
+	display: inline-block;
 }
+
 
 nav.navbar a {
 	color: rgb(81, 81, 81);
@@ -128,10 +129,28 @@ table.history td {
 	width: 170px;
 }
 
-nav.accountingNav {
+.aNav {
 	position: fixed;
-	border: 1px solid blue;
+	z-index: 6;
+	left: 390px;
+	width: 290px;
+	height: 50px;
+	top: -55px;
+}
+
+div#JE {
+	display: inline-block;
+	border-radius: 30px;
 	width: 50px;
-	height: 290px;
-	top: 115px;
+	height: 50px;
+	text-align: center;
+	background-color: #FFBC6F;
+	border: 2px solid white;
+}
+
+div#JE > a {
+	position: relative;
+	font-size: 24px;
+	top: 9px;
+	font-weight: bold;
 }

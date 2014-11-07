@@ -6,10 +6,8 @@ app.config(function($routeProvider){
 			controller: 'controller',
 			templateUrl: '../views/journal.html'
 		})
-		.when('/accounting/', {
-			templateUrl: '../views/accountingView.html'
-		})
 		.when('/reports', {
+			controller:'controller',
 			templateUrl: '../views/reportView.html'
 		})
 		.otherwise({redirectTo:'/'});
@@ -32,6 +30,7 @@ app.controller('controller', function($scope){
 				desc2: $scope.desc2
 			}
 			transactions.push(transaction);
-		}
+		};
+		
 
 });

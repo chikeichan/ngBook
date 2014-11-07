@@ -3,7 +3,7 @@
 <head>
 	<title>Ng-Book</title>
 	<link rel="stylesheet" type="text/css" href="../style/style.css">
-	<link href='http://fonts.googleapis.com/css?family=Tinos|Oleo+Script+Swash+Caps|Josefin+Sans:300,400,600,300italic,400italic,600italic|Coda:400,800|Libre+Baskerville:400,700,400italic|Great+Vibes|Vollkorn:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Tinos|Oleo+Script+Swash+Caps|Josefin+Sans:300,400,600,300italic,400italic,600italic|Pacifico|Coda:400,800|Libre+Baskerville:400,700,400italic|Great+Vibes|Vollkorn:400,700' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
@@ -13,11 +13,15 @@
 </head>
 <body>
 	<header>
+		<div class='aNav'>
+			<div id='JE'><a href='#/accounting/journal'>JE</div>
+		</div>
 		<div class='logo'><a href='#'>Ng-Book</a></div>
 		<nav class='navbar'>
-			<div id='tab'><a href='#/accounting' ng-mouseenter>Accounting</a></div>
-			<div id='tab'><a href='#/reports'>Reports</a></div>
+			<div class='tab' id='atab'><a href='#/accounting'>Accounting</a></div>
+			<div class='tab' id='rtab'><a href='#/reports'>Reports</a></div>
 		</nav>
+
 	</header>
 	<content ng-app='app' data-ng-view=''>
 
