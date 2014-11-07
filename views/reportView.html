@@ -1,0 +1,23 @@
+<table class='history'>
+	<tr class='header'>
+		<td>GL Account</td>
+		<td>Debit</td>
+		<td>Credit</td>
+		<td>Description</td>
+
+	</tr>
+</table>
+<table ng-repeat='JE in transactions' class='history'>
+	<tr>
+		<td>{{JE.gl}}</td>
+		<td>{{JE.debit}}</td>
+		<td>{{JE.credit}}</td>
+		<td>{{JE.desc}}</td>
+	</tr>
+	<tr>
+		<td>{{JE.gl2}}</td>
+		<td>{{JE.debit2}}</td>
+		<td>{{JE.credit2}}</td>
+		<td>{{JE.desc2}}</td>
+	</tr>
+</table>

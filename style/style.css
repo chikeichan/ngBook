@@ -49,45 +49,64 @@ body {
 	font-family: Josefin Sans;
 }
 
-header {
+div.logo {
 	height: 100px;
 	width: 102%;
 	background-color: #704099;
 	position: fixed;
 	margin: -16px 0 0 -8px;
+	z-index: 5;
+	box-shadow: 0 0 11px grey;
 }
 
-div.logo {
+div.logo a{
 	font-family: Coda;
 	font-size: 48px;
 	color: white;
 	font-weight: 800;
-	margin: 15px;
+	margin: 25px;
 	text-shadow: 2px 2px 0px #A677CF , 
 							-2px -2px 0px #A677CF , 
 							 2px -2px 0px #A677CF , 
 							 -2px 2px 0px #A677CF ;
+	position: relative;
+	top: 20px;
 }
 
 nav.navbar {
 	font-size: 18px;
 	font-family: Josefin Sans;
-	color: white;
 	height: 10px;
 	background-color: #A677CF;
+	position: fixed;
+	margin: 84px 0 0 -8px;
+	width: 100%;
+	z-index: 2;
+}
+
+header a {
+	text-decoration: none;
+	color: white;
+}
+
+nav.navbar>div#tab {
+	padding: 5px 30px 0 30px;
+	min-width: 100px;
+	background-color: #B1F76A;
+	display: inline-block;
+	border-radius: 0px 0px 15px 15px;
+	z-index: 2;
+	box-shadow: 0px 0px 5px grey;
+	height: 30px;
+	position: relative;
+	top: 0px;
+	text-align: center;
+	margin: 0 0 0 20px;
+
 }
 
 nav.navbar a {
 	color: rgb(81, 81, 81);
-	text-decoration: none;
-	display: inline-block;
-	padding: 5px 30px 0 30px;
-	min-width: 100px;
-	background-color: #FFBC6F;
-	height: 30px;
-	text-align: center;
-	border-radius: 0px 0px 15px 15px;
-	margin: 0 0 0 20px;
 }
 
 content {
@@ -101,10 +120,18 @@ table {
 
 table tr.header {
 	font-family: Tinos;
-	font-size: 16px;
+	font-size: 20px;
 }
 
 table.history td {
 	border: 1px solid black;
 	width: 170px;
+}
+
+nav.accountingNav {
+	position: fixed;
+	border: 1px solid blue;
+	width: 50px;
+	height: 290px;
+	top: 115px;
 }

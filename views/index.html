@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app='app'>
+<html>
 <head>
 	<title>Ng-Book</title>
 	<link rel="stylesheet" type="text/css" href="../style/style.css">
@@ -8,23 +8,26 @@
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.js"></script>
-	<script type="text/javascript" src="../app.js"></script>
+	<script type="text/javascript" src="../modules/app.js"></script>
+	<script type="text/javascript" src="../modules/header.js"></script>
 </head>
 <body>
 	<header>
-		<div class='logo'>Ng-Book</div>
+		<div class='logo'><a href='#'>Ng-Book</a></div>
 		<nav class='navbar'>
-			<a href=''>Accounting</a>
-			<a href=''>Reports</a>
+			<div id='tab'><a href='#/accounting' ng-mouseenter>Accounting</a></div>
+			<div id='tab'><a href='#/reports'>Reports</a></div>
 		</nav>
 	</header>
-	<content data-ng-view=''>
-
+	<content ng-app='app' data-ng-view=''>
 
 	</content>
 	<footer></footer>
 
-</div>
+
 </body>
+<script>
+
+</script>
 </html>
 
