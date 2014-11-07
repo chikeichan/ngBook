@@ -10,5 +10,21 @@ app.config(function($routeProvider){
 });
 
 app.controller('controller', function($scope){
-	$scope.testing = [1,2,3,4,5];
+	$scope.transactions = [];
+	$scope.addTransaction = function(){
+		var transaction = {
+				gl: $scope.gl,
+				debit: $scope.debit,
+				credit: $scope.credit,
+				desc: $scope.desc,
+
+				gl2: $scope.gl2,
+				debit2: $scope.debit2,
+				credit2: $scope.credit2,
+				desc2: $scope.desc2
+			}
+			$scope.transactions.push(transaction);
+			console.log($scope.transactions);
+		}
+
 });
