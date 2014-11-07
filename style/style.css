@@ -112,7 +112,8 @@ nav.navbar a {
 
 content {
 	position: relative;
-	top: 135px;
+	top: 130px;
+	left: 85px;
 }
 
 table {
@@ -132,23 +133,24 @@ table.history td {
 .aNav {
 	position: fixed;
 	z-index: 6;
-	left: 390px;
-	width: 290px;
-	height: 50px;
-	top: -55px;
+	left: -60px;
+	width: 54px;
+	height: 290px;
+	top: 140px;
 }
 
-div#JE {
+.aNav>div{
 	display: inline-block;
 	border-radius: 30px;
 	width: 50px;
 	height: 50px;
 	text-align: center;
 	background-color: #FFBC6F;
-	border: 2px solid white;
+	margin: 0 0 10px 0;
+	box-shadow: 0 0 3px rgb(200, 200, 200);
 }
 
-div#JE > a {
+.aNav>div> a {
 	position: relative;
 	font-size: 24px;
 	top: 9px;

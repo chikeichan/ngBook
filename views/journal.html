@@ -1,3 +1,4 @@
+<h1>Journal Entry</h1>
 <table class = 'JE'>
 	<tr class='header'>
 		<td>GL Account</td>
@@ -7,15 +8,21 @@
 	</tr>
 	<tr>
 		<td><input type='text' ng-model='gl'></td>
-		<td><input type='text' ng-model='debit'></td>
-		<td><input type='text' ng-model='credit'></td>
+		<td><input type='number' ng-model='debit' ng-change='zero("debit","credit")'></td>
+		<td><input type='number' ng-model='credit' ng-change='zero("credit","debit")'></td>
 		<td><input type='text' ng-model='desc'></td>
 	</tr>
 	<tr>
 		<td><input type='text' ng-model='gl2'></td>
-		<td><input type='text' ng-model='debit2'></td>
-		<td><input type='text' ng-model='credit2'></td>
+		<td><input type='number' ng-model='debit2' ng-change='zero("debit2","credit2")'></td>
+		<td><input type='number' ng-model='credit2' ng-change='zero("credit2","debit2")'></td>
 		<td><input type='text' ng-model='desc2'></td>
+	</tr>
+	<tr>
+		<td>Total: </td>
+		<td>{{debit + debit2}}</td>
+		<td>{{credit + credit2}}</td>
+		<td>{{message}}</td>
 	</tr>
 
 
