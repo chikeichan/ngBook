@@ -144,7 +144,7 @@ tr.JEHead>td {
 }
 
 
-.aNav {
+.aNav, .rNav {
 	position: fixed;
 	z-index: 6;
 	left: -60px;
@@ -153,7 +153,7 @@ tr.JEHead>td {
 	top: 140px;
 }
 
-.aNav>div{
+.aNav>div, .rNav>div{
 	display: inline-block;
 	border-radius: 30px;
 	width: 50px;
@@ -164,7 +164,7 @@ tr.JEHead>td {
 	box-shadow: 0 0 3px rgb(200, 200, 200);
 }
 
-.aNav>div> a {
+.aNav>div> a, .rNav>div>a {
 	position: relative;
 	font-size: 24px;
 	top: 9px;

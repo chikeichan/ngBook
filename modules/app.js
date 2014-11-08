@@ -10,9 +10,9 @@ app.config(function($routeProvider){
 			controller: 'controller',
 			templateUrl: '../views/accountMaintenance.html'
 		})
-		.when('/reports', {
+		.when('/reports/detail', {
 			controller:'controller',
-			templateUrl: '../views/reportView.html'
+			templateUrl: '../views/detail.html'
 		})
 		.otherwise({redirectTo:'/'});
 });
@@ -166,6 +166,10 @@ app.directive('appHeader', function(){
 		});
 
 		$('#atab').click(function(){
+			$('#rtab').attr('clicked','no');
+				$('.rNav').animate({
+					left: '-60px'
+				},200);
 			if($(this).attr('clicked') !== 'yes') {
 				$(this).attr('clicked','yes');
 				$('.aNav').animate({
@@ -174,6 +178,24 @@ app.directive('appHeader', function(){
 			} else {
 				$(this).attr('clicked','no');
 				$('.aNav').animate({
+					left: '-60px'
+				},200);
+			}
+		});
+
+		$('#rtab').click(function(){
+			$('#atab').attr('clicked','no');
+				$('.aNav').animate({
+					left: '-60px'
+				},200);
+			if($(this).attr('clicked') !== 'yes') {
+				$(this).attr('clicked','yes');
+				$('.rNav').animate({
+					left: '15px'
+				},500);
+			} else {
+				$(this).attr('clicked','no');
+				$('.rNav').animate({
 					left: '-60px'
 				},200);
 			}
