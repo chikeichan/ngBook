@@ -14,6 +14,10 @@ app.config(function($routeProvider){
 			controller:'controller',
 			templateUrl: '../views/detail.html'
 		})
+		.when('/reports/PL', {
+			controller:'controller',
+			templateUrl: '../views/PL.html'
+		})
 		.otherwise({redirectTo:'/'});
 });
 
@@ -147,6 +151,37 @@ app.controller('controller', function($scope){
 		}
 	}
 
+	var getTotal = function(type){
+		var glList = _.filter(gls, function(gl){
+			return gl.type ===type;
+		})
+		return glList;
+	}
+
+	$scope.totalDebit = function(code){
+		var debits = [];
+		_.each(transactions, function(JE){
+			if(JE.glCode == code){
+				debits.push(+JE.debit);
+			} else {
+				debits.push(0);
+			}
+		});
+
+		console.log(debits);
+
+		var total = _.reduce(debits, function(x, num){
+			return x + num;
+		}, 0)
+
+		return total;
+	}
+
+	$scope.incomeGLs = getTotal('Income');
+	$scope.expenseGLs = getTotal('Expense');
+	$scope.assetGLs = getTotal('Asset');
+	$scope.liabilityGLs = getTotal('Liability');
+	$scope.equityGLs = getTotal('Equity');
 });
 
 app.directive('appHeader', function(){

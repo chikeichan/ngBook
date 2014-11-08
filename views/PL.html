@@ -1,0 +1,31 @@
+<h1>General Ledger Detail</h1>
+
+<table class='history'>
+
+	<tr class='header'>
+		<td>Income</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr ng-repeat='gl in incomeGLs | orderBy: "code"'>
+		<td>{{gl.code}}</td>
+		<td>{{gl.desc}}</td>
+		<td></td>
+		<td>{{totalDebit(gl.code)}}</td>
+	</tr>
+	<tr class='header'>
+		<td>Expense</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr ng-repeat='gl in expenseGLs | orderBy: "code"'>
+		<td>{{gl.code}}</td>
+		<td>{{gl.desc}}</td>
+		<td></td>
+		<td>{{totalDebit(gl.code)}}</td>
+	</tr>
+
+</div>
+</table>
