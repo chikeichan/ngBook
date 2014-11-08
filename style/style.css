@@ -127,12 +127,22 @@ table {
 
 table tr.header {
 	font-size: 20px;
+	border-bottom: 1px solid black;
+}
+
+table.JE tr.header {
+	border-bottom: none;
 }
 
 table.history td {
-	border: 1px solid black;
 	width: 170px;
 }
+
+tr.JEHead>td {
+	padding: 10px 0 10px 0;
+	font-weight: bold;
+}
+
 
 .aNav {
 	position: fixed;
@@ -159,4 +169,16 @@ table.history td {
 	font-size: 24px;
 	top: 9px;
 	font-weight: bold;
+}
+
+table#COA {
+	position: relative;
+	left: 375px;
+	top: -135px;
+	min-width: 400px;
+}
+
+table.JEHist {
+	position: relative;
+	top: 50px;
 }

@@ -17,20 +17,44 @@ app.config(function($routeProvider){
 		.otherwise({redirectTo:'/'});
 });
 
-var transactions=[];
-var gls=[{code: 1100,
+var transactions=[{
+	glCode: '2100',
+	glDesc: 'Accounts Payable',
+	debit: 21434.96,
+	credit: null,
+	desc: 'Check Run'
+},{
+	glCode: '1100',
+	glDesc: 'Cash',
+	debit: null,
+	credit: 21434.96,
+	desc: 'Check Run'
+},{
+	glCode: '2100',
+	glDesc: 'Accounts Payable',
+	debit: null,
+	credit: 543,
+	desc: 'COGS'
+},{
+	glCode: '5000',
+	glDesc: 'Cost of Goods',
+	debit: 543,
+	credit: null,
+	desc: 'COGS'
+}];
+var gls=[{code: '1100',
 					desc: 'Cash',
 					type: 'Asset'},
-					{code: 2100,
+					{code: '2100',
 					desc: 'Accounts Payable',
 					type: 'Liability'},
-					{code: 3100,
+					{code: '3100',
 					desc: 'Contributions',
 					type: 'Equity'},
-					{code: 4000,
+					{code: '4000',
 					desc: 'Revenue',
 					type: 'Income'},
-					{code: 5000,
+					{code: '5000',
 					desc: 'Cost of Goods',
 					type: 'Expense'}];
 
@@ -46,7 +70,8 @@ app.controller('controller', function($scope){
 		}
 
 		var transaction = {
-			glCode: $scope.glCode,
+			glCode: parseInt($scope.glCode),
+			glDesc: _.find(gls, function(gl){return gl.code === $scope.glCode;}).desc,
 			debit: $scope.debit,
 			credit: $scope.credit,
 			desc: $scope.desc,
@@ -54,7 +79,8 @@ app.controller('controller', function($scope){
 		transactions.push(transaction);
 
 		var transaction = {
-			glCode: $scope.glCode2,
+			glCode: parseInt($scope.glCode2),
+			glDesc: _.find(gls, function(gl){return gl.code === $scope.glCode2;}).desc,
 			debit: $scope.debit2,
 			credit: $scope.credit2,
 			desc: $scope.desc2
