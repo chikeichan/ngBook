@@ -115,10 +115,22 @@ nav.navbar a {
 	color: rgb(81, 81, 81);
 }
 
+div#content {
+	background-color: white;
+	height: 800px;
+	width: 800px;
+	position: relative;
+	top: 120px;
+	left: 73px;
+	box-shadow: 0 0 2px grey;
+	border-radius: 5px;
+	margin-bottom: 25px;
+}
+
 content {
 	position: relative;
-	top: 130px;
-	left: 85px;
+	top: 10px;
+	left: 30px;
 }
 
 table {
@@ -141,6 +153,10 @@ table.history td {
 tr.JEHead>td {
 	padding: 10px 0 10px 0;
 	font-weight: bold;
+}
+
+input[type='number'] {
+	width: 100px;
 }
 
 
@@ -173,7 +189,7 @@ tr.JEHead>td {
 
 table#COA {
 	position: relative;
-	left: 375px;
+	left: 345px;
 	top: -135px;
 	min-width: 400px;
 }
