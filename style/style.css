@@ -189,9 +189,13 @@ input[type='number'] {
 
 table#COA {
 	position: relative;
-	left: 345px;
-	top: -135px;
 	min-width: 400px;
+}
+
+coa-widget {
+	position: relative;
+	left: 345px;
+	top: -160px;
 }
 
 table.JEHist {

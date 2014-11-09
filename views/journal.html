@@ -1,40 +1,4 @@
-<h1>Journal Entry</h1>
-<table class = 'JE'>
-	<tr class='header'>
-		<td>GL Account</td>
-		<td>Debit</td>
-		<td>Credit</td>
-		<td>Description</td>
-	</tr>
-	<tr>
-		<td>
-				<select name='glCode' ng-model='glCode'>
-					<option value='{{gl.code}}' type='number' ng-repeat='gl in gls | orderBy: "code"'>{{gl.code + '-' + gl.desc}}</option>
-		</td>
-		<td><input type='number' ng-model='debit' ng-change='zero("debit","credit")'></td>
-		<td><input type='number' ng-model='credit' ng-change='zero("credit","debit")'></td>
-		<td><input type='text' ng-model='desc'></td>
-	</tr>
-	<tr>
-		<td>				
-				<select name='glCode' ng-model='glCode2'>
-					<option value='{{gl.code}}' ng-repeat='gl in gls | orderBy: "code"'>{{gl.code + '-' + gl.desc}}</option>
-		</td>
-		<td><input type='number' ng-model='debit2' ng-change='zero("debit2","credit2")'></td>
-		<td><input type='number' ng-model='credit2' ng-change='zero("credit2","debit2")'></td>
-		<td><input type='text' ng-model='desc2'></td>
-	</tr>
-	<tr>
-		<td>Total: </td>
-		<td>{{debit + debit2}}</td>
-		<td>{{credit + credit2}}</td>
-		<td>{{message}}</td>
-	</tr>
-
-
-</table>
-
-<button type='button' ng-click='addTransaction()'>Submit</button>
+<je-widget></je-widget>
 
 <table class='history JEHist'>
 	<tr class='header'>

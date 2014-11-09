@@ -1,0 +1,27 @@
+<h1>Account Maintenance</h1>
+<table>
+	<form>
+		<tr>
+			<td>GL Code:</td>
+			<td><input type='text' ng-model='glCode' ng-blur='searchResults()'></td>
+		</tr>
+		<tr>
+			<td>GL Description:</td>
+			<td><input type='text' ng-model='glDesc'></td>
+		</tr>
+		<tr>
+			<td>GL Type:</td>
+			<td>
+				<select name='GL Type' ng-model='glType'>
+					<option value='Asset'>Asset (1000-1999)</option>
+					<option value='Liability'>Liability (2000-2999)</option>
+					<option value='Equity'>Equity (3000-3999)</option>
+					<option value='Income'>Income (4000-4999)</option>
+					<option value='Expense'>Expense (5000-9999)</option>
+			</td>
+		</tr>
+		<tr>
+			<td><button type='button' ng-click='submitGL()'>Submit</button></td>
+		</tr>
+	</form>
+</table>

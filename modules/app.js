@@ -3,11 +3,11 @@ var app = angular.module('app', ['ngRoute']);
 app.config(function($routeProvider){
 	$routeProvider
 		.when('/accounting/journal', {
-			controller: 'controller',
+			controller: 'JECtrl',
 			templateUrl: '../views/journal.html'
 		})
 		.when('/accounting/accountMaintenance', {
-			controller: 'controller',
+			controller: 'AMCtrl',
 			templateUrl: '../views/accountMaintenance.html'
 		})
 		.when('/reports/detail', {
@@ -21,168 +21,10 @@ app.config(function($routeProvider){
 		.otherwise({redirectTo:'/'});
 });
 
-var transactions=[{
-	glCode: '2100',
-	glDesc: 'Accounts Payable',
-	debit: 21434.96,
-	credit: null,
-	desc: 'Check Run'
-},{
-	glCode: '1100',
-	glDesc: 'Cash',
-	debit: null,
-	credit: 21434.96,
-	desc: 'Check Run'
-},{
-	glCode: '2100',
-	glDesc: 'Accounts Payable',
-	debit: null,
-	credit: 543,
-	desc: 'COGS'
-},{
-	glCode: '5000',
-	glDesc: 'Cost of Goods',
-	debit: 543,
-	credit: null,
-	desc: 'COGS'
-}];
-var gls=[{code: '1100',
-					desc: 'Cash',
-					type: 'Asset'},
-					{code: '2100',
-					desc: 'Accounts Payable',
-					type: 'Liability'},
-					{code: '3100',
-					desc: 'Contributions',
-					type: 'Equity'},
-					{code: '4000',
-					desc: 'Revenue',
-					type: 'Income'},
-					{code: '5000',
-					desc: 'Cost of Goods',
-					type: 'Expense'}];
 
-app.controller('controller', function($scope){
-	$scope.transactions = transactions;
-	$scope.gls = gls;
 
-	$scope.addTransaction = function(){
-		var offBalance = $scope.debit+$scope.debit2-$scope.credit-$scope.credit2;
-		if(offBalance) {
-			$scope.message = 'The JE is off-balanced!';
-			return;
-		}
 
-		var transaction = {
-			glCode: parseInt($scope.glCode),
-			glDesc: _.find(gls, function(gl){return gl.code === $scope.glCode;}).desc,
-			debit: $scope.debit,
-			credit: $scope.credit,
-			desc: $scope.desc,
-		}
-		transactions.push(transaction);
 
-		var transaction = {
-			glCode: parseInt($scope.glCode2),
-			glDesc: _.find(gls, function(gl){return gl.code === $scope.glCode2;}).desc,
-			debit: $scope.debit2,
-			credit: $scope.credit2,
-			desc: $scope.desc2
-		}
-		transactions.push(transaction);
-
-		$scope.glCode = null;
-		$scope.debit = null;
-		$scope.credit = null;
-		$scope.desc = null;
-		$scope.glCode2 = null;
-		$scope.debit2 = null;
-		$scope.credit2 = null;
-		$scope.desc2 = null;
-		$scope.message = null;
-
-	};
-
-	$scope.zero = function(current,target){
-		if($scope[current]){
-			$scope[target] = null;
-		}
-	}
-
-	$scope.submitGL = function(){
-		var gl = {
-			code: $scope.glCode,
-			desc: $scope.glDesc,
-			type: $scope.glType
-		}
-		var index;
-
-		var existing = _.find(gls, function(glAccount, i){
-			if( glAccount.code === gl.code){
-				index = i;
-			}
-			return glAccount.code === gl.code;
-		});
-
-		if(!existing){
-			gls.push(gl);
-			console.log(gls);
-		} else {
-			gls[index] = gl;
-		}
-
-		$scope.glCode = null;
-		$scope.glDesc = null;
-		$scope.glType = null;
-
-	}
-
-	$scope.searchGL = function(){
-		var query = $scope.glCode;
-		var gl = _.find(gls, function(gl){
-			return gl.code === query;
-		});
-		if(gl){
-			$scope.glDesc = gl.desc;
-			$scope.glType = gl.type;
-		} else {
-			$scope.glDesc = null;
-			$scope.glType = null;
-		}
-	}
-
-	var getTotal = function(type){
-		var glList = _.filter(gls, function(gl){
-			return gl.type ===type;
-		})
-		return glList;
-	}
-
-	$scope.totalDebit = function(code){
-		var debits = [];
-		_.each(transactions, function(JE){
-			if(JE.glCode == code){
-				debits.push(+JE.debit);
-			} else {
-				debits.push(0);
-			}
-		});
-
-		console.log(debits);
-
-		var total = _.reduce(debits, function(x, num){
-			return x + num;
-		}, 0)
-
-		return total;
-	}
-
-	$scope.incomeGLs = getTotal('Income');
-	$scope.expenseGLs = getTotal('Expense');
-	$scope.assetGLs = getTotal('Asset');
-	$scope.liabilityGLs = getTotal('Liability');
-	$scope.equityGLs = getTotal('Equity');
-});
 
 app.directive('appHeader', function(){
 	function link(scope,element,attrs){
@@ -240,5 +82,163 @@ app.directive('appHeader', function(){
 		restrict: 'EA',
 		templateUrl: '../views/header.html',
 		link: link
+	}
+})
+
+
+
+app.factory('accountingService', function(){
+	var factory = {};
+	factory.transactions=[{
+		glDate: '11/01/2014',
+		glCode: '2100',
+		glDesc: 'Accounts Payable',
+		debit: 21434.96,
+		credit: null,
+		desc: 'Check Run'
+	},{
+		glDate: '11/01/2014',
+		glCode: '1100',
+		glDesc: 'Cash',
+		debit: null,
+		credit: 21434.96,
+		desc: 'Check Run'
+	},{
+		glDate: '11/01/2014',
+		glCode: '2100',
+		glDesc: 'Accounts Payable',
+		debit: null,
+		credit: 543,
+		desc: 'COGS'
+	},{
+		glDate: '11/01/2014',
+		glCode: '5000',
+		glDesc: 'Cost of Goods',
+		debit: 543,
+		credit: null,
+		desc: 'COGS'
+	}];
+
+	factory.gls=[{
+		code: '1100',
+		desc: 'Cash',
+		type: 'Asset'
+	},{code: '2100',
+		desc: 'Accounts Payable',
+		type: 'Liability'
+	},{code: '3100',
+		desc: 'Contributions',
+		type: 'Equity'
+	},{code: '4000',
+		desc: 'Revenue',
+		type: 'Income'
+	},{code: '5000',
+		desc: 'Cost of Goods',
+		type: 'Expense'
+	}];
+
+	factory.searchGL = function(query){
+		var result = _.find(this.gls, function(gl){return query === gl.code});
+		return result;
+	}
+
+	factory.addJE = function(JEs){
+		_.each(JEs, function(JE,i){
+			factory.transactions.push(JE[i]);
+		})
+	}
+
+	return factory;
+
+})
+
+app.controller('AMCtrl', function($scope, accountingService){
+	$scope.gls = accountingService.gls;
+	$scope.transactions = accountingService.transactions;
+	$scope.searchGL = accountingService.searchGL;
+
+	$scope.searchResults = function(){
+		var gl = $scope.searchGL($scope.glCode);
+		if(gl){
+			$scope.glDesc = gl.desc;
+			$scope.glType = gl.type;
+		}
+	};
+
+	$scope.submitGL = function(){
+		var gl = {
+			code: $scope.glCode,
+			desc: $scope.glDesc,
+			type: $scope.glType
+		}
+		var index;
+		var existing = _.find($scope.gls, function(glAccount, i){
+			if( glAccount.code === gl.code){
+				index = i;
+			}
+			return glAccount.code === gl.code;
+		});
+		if(!existing){
+			$scope.gls.push(gl);
+		} else {
+			$scope.gls[index] = gl;
+		}
+		$scope.glCode = null;
+		$scope.glDesc = null;
+		$scope.glType = null;
+
+		console.log(accountingService.gls)
+	};
+});
+
+app.directive('amWidget', function(){
+	function link(scope,element,attrs){
+		
+	};
+	return {
+		restrict: 'EA',
+		scope: false,
+		templateUrl: '../views/AMWidget.html',
+		link: link
+	}
+})
+
+app.directive('coaWidget', function(){
+	function link(scope,element,attrs){
+		
+	};
+	return {
+		restrict: 'EA',
+		scope: false,
+		templateUrl: '../views/COAWidget.html',
+		link: link
+	}
+})
+
+app.controller('JECtrl', function($scope, accountingService){
+	$scope.gls = accountingService.gls;
+	$scope.transactions = accountingService.transactions;
+	$scope.lines = [''];
+	$scope.addTransaction = function(){
+		var gl = []
+		$('#debit').each(function(){
+			gl.push($(this).val());
+		})		
+		console.log(gl);
+	}
+
+});
+
+app.directive('jeWidget', function(){
+	return {
+		restrict: 'EA',
+		templateUrl: '../views/JEWidget.html'
+	}
+})
+
+app.directive('jeLine', function(){
+	return {
+		restrict: 'EA',
+		templateUrl: '../views/JELine.html'
 	}
 })

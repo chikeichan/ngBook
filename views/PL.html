@@ -1,4 +1,4 @@
-<h1>General Ledger Detail</h1>
+<h1>Profit and Loss</h1>
 
 <table class='history'>
 
@@ -12,7 +12,7 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td>{{totalDebit(gl.code)}}</td>
+		<td>{{totalCredit(gl.code)-totalDebit(gl.code)}}</td>
 	</tr>
 	<tr class='header'>
 		<td>Expense</td>
@@ -24,7 +24,7 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td>{{totalDebit(gl.code)}}</td>
+		<td>{{totalDebit(gl.code) - totalCredit(gl.code)}}</td>
 	</tr>
 
 </div>

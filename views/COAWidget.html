@@ -1,0 +1,14 @@
+
+	<h1>Chart of Account</h1>
+	<table id='COA'>
+		<tr class='header'>
+			<td>GL Code</td>
+			<td>GL Type</td>
+			<td>GL Description</td>
+		</tr>
+		<tr ng-repeat='gl in gls | orderBy: "code"'>
+			<td>{{gl.code}}</td>
+			<td>{{gl.type}}</td>
+			<td>{{gl.desc}}</td>	
+		</tr>
+	</table>
