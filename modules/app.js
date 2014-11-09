@@ -144,7 +144,7 @@ app.factory('accountingService', function(){
 
 	factory.addJE = function(JEs){
 		_.each(JEs, function(JE,i){
-			factory.transactions.push(JE[i]);
+			factory.transactions.push(JE);
 		})
 	}
 
@@ -218,13 +218,32 @@ app.directive('coaWidget', function(){
 app.controller('JECtrl', function($scope, accountingService){
 	$scope.gls = accountingService.gls;
 	$scope.transactions = accountingService.transactions;
-	$scope.lines = [''];
+
+	$scope.lines = ['0','1','2'];
+	$scope.glDebit = {};
+	$scope.glCode = {};
+	$scope.glCredit = {};
+	$scope.glDesc = {};
+
+	$scope.addJE = accountingService.addJE;
+	
 	$scope.addTransaction = function(){
-		var gl = []
-		$('#debit').each(function(){
-			gl.push($(this).val());
-		})		
-		console.log(gl);
+		$scope.lines.push($scope.lines.length.toString());
+	};
+
+	$scope.submit = function(){
+		var JEs = [];
+		_.each($scope.lines, function(x){
+			JEs.push({
+				glDate: $scope.glDate,
+				glCode: $scope.glCode[x],
+				glDesc: $scope.glDesc[x],
+				debit: $scope.glDebit[x] || null,
+				credit: $scope.glCredit[x] || null,
+				desc: $scope.glDesc[x]
+			})
+		})
+		$scope.addJE(JEs);
 	}
 
 });
@@ -233,12 +252,5 @@ app.directive('jeWidget', function(){
 	return {
 		restrict: 'EA',
 		templateUrl: '../views/JEWidget.html'
-	}
-})
-
-app.directive('jeLine', function(){
-	return {
-		restrict: 'EA',
-		templateUrl: '../views/JELine.html'
 	}
 })
