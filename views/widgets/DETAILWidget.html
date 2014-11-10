@@ -1,0 +1,53 @@
+<h1>General Ledger Detail</h1>
+
+<table>
+<tr>
+		<td>Starting Date:</td>
+		<td><input type='date' ng-model='sDate'></td>
+		<td>Ending Date:</td>
+		<td><input type='date' ng-model='eDate'></td>
+	</tr>
+	<tr>
+		<td>Starting GL:</td>
+		<td>
+					<select name='glCode' ng-model='sCode'>
+						<option ng-repeat='gl in gls | orderBy: "code"' value='{{gl.code}}' type='number'>{{gl.code + '-' + gl.desc}}</option>
+		</td>
+		<td>Ending GL:</td>
+		<td>
+					<select name='glCode' ng-model='eCode'>
+						<option ng-repeat='gl in gls | orderBy: "code"' value='{{gl.code}}' type='number'>{{gl.code + '-' + gl.desc}}</option>
+		</td>
+	</tr>
+	<tr>
+		<td>Search:</td>
+		<td><input type='text' ng-model='query'></td>
+		<td></td>
+		<td><button ng-click='filter(sDate,eDate,sCode,eCode)'>Update</button><button ng-click='clear()'>Clear</button></td>
+
+</table>
+
+<table class='history JEHist'>
+	
+	<tr class='header'>
+		<td id='date'>Posting Date</td>
+		<td>GL Account</td>
+		<td id='debit'>Debit</td>
+		<td id='credit'>Credit</td>
+		<td>Description</td>
+	</tr>
+	<tr class='JEHead'>
+		<td colspan='5'>Date Range: {{sDate}} -- {{eDate}}</td>
+	</tr>
+	<tr class='JEHead'>
+		<td colspan='5'>GL Range: GL{{sCode}} -- GL{{eCode}}</td>
+	</tr>
+	<tr ng-repeat='JE in transactions | filter: query'>
+		<td id='date'>{{JE.glDate}}</td>
+		<td>{{JE.glCode}} - {{JE.glDesc}}</td>
+		<td id='debit' class='number'>{{JE.debit}}</td>
+		<td id='credit' class='number'>{{JE.credit}}</td>
+		<td>{{JE.desc}}</td>
+	</tr>
+
+</table>

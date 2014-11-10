@@ -3,11 +3,9 @@ var app = angular.module('app', ['ngRoute']);
 app.config(function($routeProvider){
 	$routeProvider
 		.when('/accounting/journal', {
-			controller: 'JECtrl',
 			templateUrl: '../views/journal.html'
 		})
 		.when('/accounting/accountMaintenance', {
-			controller: 'AMCtrl',
 			templateUrl: '../views/accountMaintenance.html'
 		})
 		.when('/reports/detail', {
@@ -90,28 +88,28 @@ app.directive('appHeader', function(){
 app.factory('accountingService', function(){
 	var factory = {};
 	factory.transactions=[{
-		glDate: '11/01/2014',
+		glDate: '2014-11-01',
 		glCode: '2100',
 		glDesc: 'Accounts Payable',
 		debit: 21434.96,
 		credit: null,
 		desc: 'Check Run'
 	},{
-		glDate: '11/01/2014',
+		glDate: '2014-11-02',
 		glCode: '1100',
 		glDesc: 'Cash',
 		debit: null,
 		credit: 21434.96,
 		desc: 'Check Run'
 	},{
-		glDate: '11/01/2014',
+		glDate: '2014-11-03',
 		glCode: '2100',
 		glDesc: 'Accounts Payable',
 		debit: null,
 		credit: 543,
 		desc: 'COGS'
 	},{
-		glDate: '11/01/2014',
+		glDate: '2014-11-04',
 		glCode: '5000',
 		glDesc: 'Cost of Goods',
 		debit: 543,
@@ -146,6 +144,26 @@ app.factory('accountingService', function(){
 		_.each(JEs, function(JE,i){
 			factory.transactions.push(JE);
 		})
+	}
+
+	factory.filterHistbyDate = function(starting, ending){
+		var result = [];
+		_.each(this.transactions, function(je){
+			if(je.glDate >= (starting|| '0000-00-00') && je.glDate <= (ending || '9999-99-99')){
+				result.push(je);
+			}
+		})
+		return result;
+	}
+
+	factory.filterHistbyCode = function(starting,ending){
+		var result = [];
+		_.each(this.transactions, function(je){
+			if(je.glCode >= (starting|| '0000') && je.glCode <= (ending || '9999')){
+				result.push(je);
+			}
+		})
+		return result;
 	}
 
 	return factory;
@@ -278,6 +296,7 @@ app.controller('JECtrl', function($scope, accountingService){
 				$scope.glDebit[x] = null;
 				$scope.glCredit[x] = null;
 				$scope.glDesc[x] = null;
+				$scope.message = null;
 			})
 		} else {
 			$scope.message = 'Out of Balance';
@@ -305,5 +324,35 @@ app.directive('jeWidget', function(){
 	return {
 		restrict: 'EA',
 		templateUrl: '../views/widgets/JEWidget.html'
+	}
+})
+
+app.controller('DETAILCtrl', function($scope, accountingService){
+	$scope.gls = accountingService.gls;
+	$scope.transactions = accountingService.transactions;
+	$scope.filterHistbyDate = accountingService.filterHistbyDate;
+	$scope.filterHistbyCode = accountingService.filterHistbyCode;
+
+	$scope.filter = function(sDate,eDate,sCode,eCode){
+		$scope.transactions = accountingService.transactions;
+		$scope.transactions = $scope.filterHistbyDate(sDate,eDate);
+		$scope.transactions = $scope.filterHistbyCode(sCode,eCode);
+	}
+
+	$scope.clear = function(){
+		$scope.sDate = null;
+		$scope.eDate = null;
+		$scope.sCode = null;
+		$scope.eCode = null;
+		$scope.query = null;
+		$scope.transactions = accountingService.transactions;
+	}
+
+});
+
+app.directive('detailWidget', function(){
+	return {
+		restrict: 'EA',
+		templateUrl: '../views/widgets/DETAILWidget.html'
 	}
 })
