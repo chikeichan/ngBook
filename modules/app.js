@@ -9,7 +9,6 @@ app.config(function($routeProvider){
 			templateUrl: '../views/accountMaintenance.html'
 		})
 		.when('/reports/detail', {
-			controller:'controller',
 			templateUrl: '../views/detail.html'
 		})
 		.when('/reports/PL', {
