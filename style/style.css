@@ -202,3 +202,7 @@ table.JEHist {
 	position: relative;
 	top: 50px;
 }
+
+button {
+	width: 75px;
+}

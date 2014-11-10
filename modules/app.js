@@ -162,6 +162,9 @@ app.controller('AMCtrl', function($scope, accountingService){
 		if(gl){
 			$scope.glDesc = gl.desc;
 			$scope.glType = gl.type;
+		} else {
+			$scope.glDesc = null;
+			$scope.glType = null;
 		}
 	};
 
@@ -186,8 +189,6 @@ app.controller('AMCtrl', function($scope, accountingService){
 		$scope.glCode = null;
 		$scope.glDesc = null;
 		$scope.glType = null;
-
-		console.log(accountingService.gls)
 	};
 });
 
@@ -198,7 +199,7 @@ app.directive('amWidget', function(){
 	return {
 		restrict: 'EA',
 		scope: false,
-		templateUrl: '../views/AMWidget.html',
+		templateUrl: '../views/widgets/AMWidget.html',
 		link: link
 	}
 })
@@ -210,7 +211,7 @@ app.directive('coaWidget', function(){
 	return {
 		restrict: 'EA',
 		scope: false,
-		templateUrl: '../views/COAWidget.html',
+		templateUrl: '../views/widgets/COAWidget.html',
 		link: link
 	}
 })
@@ -226,6 +227,7 @@ app.controller('JECtrl', function($scope, accountingService){
 	$scope.glDesc = {};
 
 	$scope.addJE = accountingService.addJE;
+	$scope.searchGL = accountingService.searchGL;
 	
 	$scope.addTransaction = function(){
 		$scope.lines.push($scope.lines.length.toString());
@@ -246,12 +248,11 @@ app.controller('JECtrl', function($scope, accountingService){
 			return;
 		}
 		_.each($scope.lines, function(x){
-			console.log($scope.emptyLine(x));
 			if(!$scope.emptyLine(x)){
 				JEs.push({
 					glDate: $scope.glDate,
 					glCode: $scope.glCode[x],
-					glDesc: $scope.glDesc[x],
+					glDesc: $scope.searchGL($scope.glCode[x]).desc,
 					debit: $scope.glDebit[x] || null,
 					credit: $scope.glCredit[x] || null,
 					desc: $scope.glDesc[x]
@@ -267,8 +268,6 @@ app.controller('JECtrl', function($scope, accountingService){
 			} 
 
 		})
-
-		console.log(balance);
 
 		if(balance === 0) {
 			$scope.addJE(JEs);
@@ -305,6 +304,6 @@ app.controller('JECtrl', function($scope, accountingService){
 app.directive('jeWidget', function(){
 	return {
 		restrict: 'EA',
-		templateUrl: '../views/JEWidget.html'
+		templateUrl: '../views/widgets/JEWidget.html'
 	}
 })
