@@ -12,7 +12,6 @@ app.config(function($routeProvider){
 			templateUrl: '../views/detail.html'
 		})
 		.when('/reports/PL', {
-			controller:'controller',
 			templateUrl: '../views/PL.html'
 		})
 		.otherwise({redirectTo:'/'});
@@ -163,6 +162,46 @@ app.factory('accountingService', function(){
 			}
 		})
 		return result;
+	}
+
+	factory.getGLbyType = function(type){
+		var result = [];
+		_.each(this.gls, function(gl){
+			if(gl.type === type){
+				result.push(gl);
+			}
+		})
+		return result;
+	}
+
+	factory.getTotalbyCode = function(code, JEs){
+		var result = {
+			debit: 0,
+			credit: 0
+		};
+		_.each(JEs || this.transactions, function(je){
+			if(je.glCode == code){
+				result.debit = result.debit + je.debit || 0;
+				result.credit = result.credit + je.credit || 0;
+			}
+		})
+		return result;
+	}
+
+	factory.getTotalbyType = function(type){
+		var gls = this.getGLbyType(type);
+		var getTotalbyCode = this.getTotalbyCode;
+		var transactions = this.transactions;
+		var total = {
+			debit: 0,
+			credit: 0
+		}
+		_.each(gls, function(gl){
+			total.debit = total.debit + getTotalbyCode(gl.code, transactions).debit;
+			total.credit = total.credit + getTotalbyCode(gl.code, transactions).credit;
+		})
+
+		return total;
 	}
 
 	return factory;
@@ -353,5 +392,34 @@ app.directive('detailWidget', function(){
 	return {
 		restrict: 'EA',
 		templateUrl: '../views/widgets/DETAILWidget.html'
+	}
+})
+
+app.controller('PLCtrl', function($scope, accountingService){
+	$scope.gls = accountingService.gls;
+	
+	$scope.getGLbyType = accountingService.getGLbyType;
+	$scope.getTotalbyCode = accountingService.getTotalbyCode;
+	$scope.getTotalbyType = accountingService.getTotalbyType;
+	$scope.filterHistbyDate = accountingService.filterHistbyDate;
+
+	$scope.filter = function(sDate,eDate){
+		$scope.transactions = accountingService.transactions;
+		$scope.transactions = $scope.filterHistbyDate($scope.sDate,$scope.eDate);
+		$scope.incomeGLs = $scope.getGLbyType('Income');
+		$scope.expenseGLs = $scope.getGLbyType('Expense');
+
+		$scope.totalIncome = $scope.getTotalbyType('Income').credit - $scope.getTotalbyType('Income').debit;
+		$scope.totalExpense = $scope.getTotalbyType('Expense').credit - $scope.getTotalbyType('Expense').debit;
+	}
+
+	
+
+});
+
+app.directive('plWidget', function(){
+	return {
+		restrict: 'EA',
+		templateUrl: '../views/widgets/PLWidget.html'
 	}
 })
