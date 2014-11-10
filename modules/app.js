@@ -219,7 +219,7 @@ app.controller('JECtrl', function($scope, accountingService){
 	$scope.gls = accountingService.gls;
 	$scope.transactions = accountingService.transactions;
 
-	$scope.lines = ['0','1','2'];
+	$scope.lines = ['0','1'];
 	$scope.glDebit = {};
 	$scope.glCode = {};
 	$scope.glCredit = {};
@@ -231,19 +231,73 @@ app.controller('JECtrl', function($scope, accountingService){
 		$scope.lines.push($scope.lines.length.toString());
 	};
 
+	$scope.emptyLine = function(line){
+		if (!$scope.glCode[line] && !$scope.glDebit[line] && !$scope.glCredit[line] && !$scope.glDesc[line]) {
+			return true;
+		} 
+		return false;
+	}
+
 	$scope.submit = function(){
 		var JEs = [];
+		var balance = 0;
+		if(!$scope.glDate){
+			$scope.message = 'Need Posting Date';
+			return;
+		}
 		_.each($scope.lines, function(x){
-			JEs.push({
-				glDate: $scope.glDate,
-				glCode: $scope.glCode[x],
-				glDesc: $scope.glDesc[x],
-				debit: $scope.glDebit[x] || null,
-				credit: $scope.glCredit[x] || null,
-				desc: $scope.glDesc[x]
-			})
+			console.log($scope.emptyLine(x));
+			if(!$scope.emptyLine(x)){
+				JEs.push({
+					glDate: $scope.glDate,
+					glCode: $scope.glCode[x],
+					glDesc: $scope.glDesc[x],
+					debit: $scope.glDebit[x] || null,
+					credit: $scope.glCredit[x] || null,
+					desc: $scope.glDesc[x]
+				})
+			}
+
+			if(typeof $scope.glDebit[x] === 'number'){
+				balance = balance + $scope.glDebit[x];
+			} 
+
+			if(typeof $scope.glCredit[x] === 'number'){
+				balance = balance - $scope.glCredit[x];
+			} 
+
 		})
-		$scope.addJE(JEs);
+
+		console.log(balance);
+
+		if(balance === 0) {
+			$scope.addJE(JEs);
+			$scope.lines = ['0','1'];
+			_.each($scope.lines, function(x){
+				$scope.glCode[x] = null;
+				$scope.glDesc[x] = null;
+				$scope.glDebit[x] = null;
+				$scope.glCredit[x] = null;
+				$scope.glDesc[x] = null;
+			})
+		} else {
+			$scope.message = 'Out of Balance';
+			balance = 0;
+			JEs = [];
+
+			return;
+		}
+	}
+
+	$scope.empty = function(selected, z, zeroed){
+		if(selected !== 0 && selected !== null){
+			if(zeroed === "Credit"){
+				$scope.glCredit[z] = null;
+			}
+			if (zeroed === "Debit"){
+				$scope.glDebit[z] = null;
+			}
+		}
 	}
 
 });

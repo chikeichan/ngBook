@@ -8,9 +8,9 @@
 		<td>Description</td>
 	</tr>
 	<tr class='JEHead'>
-		<td>GL History: Account {{glCode}}</td>
+		<td>GL History: Account</td>
 	</tr>
-	<tr ng-repeat='JE in transactions | filter: glCode || "none"'>
+	<tr ng-repeat='JE in transactions'>
 		
 		<td>{{JE.glCode}} - {{JE.glDesc}}</td>
 		<td>{{JE.debit}}</td>
@@ -18,14 +18,4 @@
 		<td>{{JE.desc}}</td>
 	</tr>
 
-	<tr class='JEHead'>
-		<td>GL History: Account {{glCode2}}</td>
-
-	</tr>
-	<tr ng-repeat='JE in transactions | filter: glCode2 || "none"'>
-		<td>{{JE.glCode}} - {{JE.glDesc}}</td>
-		<td>{{JE.debit}}</td>
-		<td>{{JE.credit}}</td>
-		<td>{{JE.desc}}</td>
-	</tr>
 </table>

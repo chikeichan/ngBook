@@ -18,8 +18,8 @@
 					<select name='glCode' ng-model="glCode[line]" >
 						<option ng-repeat='gl in gls | orderBy: "code"' value='{{gl.code}}' type='number'>{{gl.code + '-' + gl.desc}}</option>
 			</td>
-			<td><input type='number' ng-model="glDebit[line]"></td>
-			<td><input type='number' ng-model="glCredit[line]"></td>
+			<td><input type='number' ng-blur='empty(glDebit[line], line, "Credit")' ng-model="glDebit[line]"></td>
+			<td><input type='number' ng-blur='empty(glCredit[line], line, "Debit")' ng-model="glCredit[line]"></td>
 			<td><input type='text' ng-model="glDesc[line]"></td>
 		</tr>
 		<tr id='total'>
