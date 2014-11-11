@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var db = mongoose.connect('mongodb://test:test@ds053130.mongolab.com:53130/angular-book')
 var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
+var _ = require('underscore');
 
 //Set up Schema
 var GL = new Schema({
@@ -42,54 +43,6 @@ app.set('view engine', 'jade');
 //Express: serve base route / to localhost8080
 app.use(express.static(path.join(__dirname,'/')));
 
-var transactions=[{
-		glDate: '2014-11-01',
-		glCode: '2100',
-		glDesc: 'Accounts Payable',
-		debit: 21434.96,
-		credit: null,
-		desc: 'Check Run'
-	},{
-		glDate: '2014-11-02',
-		glCode: '1100',
-		glDesc: 'Cash',
-		debit: null,
-		credit: 21434.96,
-		desc: 'Check Run'
-	},{
-		glDate: '2014-11-03',
-		glCode: '2100',
-		glDesc: 'Accounts Payable',
-		debit: null,
-		credit: 543,
-		desc: 'COGS'
-	},{
-		glDate: '2014-11-04',
-		glCode: '5000',
-		glDesc: 'Cost of Goods',
-		debit: 543,
-		credit: null,
-		desc: 'COGS'
-	}];
-
-	var gls=[{
-		code: '1100',
-		desc: 'Cash',
-		type: 'Asset'
-	},{code: '2100',
-		desc: 'Accounts Payable',
-		type: 'Liability'
-	},{code: '3100',
-		desc: 'Contributions',
-		type: 'Equity'
-	},{code: '4000',
-		desc: 'Revenue',
-		type: 'Income'
-	},{code: '5000',
-		desc: 'Cost of Goods',
-		type: 'Expense'
-	}];
-
 //Express: Create
 app.post('/api/gl', function(req,res){
 	console.log(req.body);
@@ -112,7 +65,6 @@ app.post('/api/gl', function(req,res){
 //Express: Read
 app.get('/api/gl', function(req,res){
 	GLModel.find({},function(err,gl){
-		console.log(gl)
 		res.send(gl);
 		console.log(gl.length + ' GL Code(s)');
 	});
@@ -120,9 +72,6 @@ app.get('/api/gl', function(req,res){
 
 //Express: Update
 app.put('/api/gl/:id', function (req,res) {
-	console.log(req.body);
-	console.log(req.params.id);
-
 	var gl = {
 		code: req.body.code,
 		desc: req.body.desc,
@@ -139,8 +88,43 @@ app.put('/api/gl/:id', function (req,res) {
 
 });
 
+//Express: Read Transactions
+app.get('/api/trans', function(req,res){
+	TransModel.find({},function(err,trans){
+		console.log(trans)
+		res.send(trans);
+		console.log(trans.length + ' Transaction(s)');
+	});
+});
 
+//Express: Create Transactions
+app.post('/api/trans', function(req,res){
+	var trans = [];
+	_.each(req.body, function(tran){
+		var tran = new TransModel({
+			glDate: tran.glDate,
+			glCode: tran.glCode,
+			glDesc: tran.glDesc,
+			debit: tran.debit,
+			credit: tran.credit,
+			desc: tran.desc
+		})
 
+		tran.save(function(err,blog){
+		if(err){
+			return console.error(err);
+		} else {
+			console.log("Created "+tran)
+		}
+	})
+		trans.push(tran);
+	})
+
+	console.log(trans);
+	
+	
+	
+})
 
 
 

@@ -86,7 +86,19 @@ app.directive('appHeader', function(){
 app.factory('accountingService', function($http){
 	var factory = {};
 	
-	factory.transactions = [];
+	factory.getTrans = function(){
+		trans = []
+		$http.get('../api/trans').
+			success(function(data,status){
+				_.each(data,function(tran){
+					trans.push(tran);
+				})
+			});
+		return trans;
+	}
+
+	factory.transactions = factory.getTrans();
+	console.log(factory.transactions);
 	
 	factory.getGL = function(){
 		gls = []
@@ -110,9 +122,11 @@ app.factory('accountingService', function($http){
 	}
 
 	factory.addJE = function(JEs){
+		var trans = []
 		_.each(JEs, function(JE,i){
-			factory.transactions.push(JE);
+			trans.push(JE);
 		})
+		$http.post('../api/trans',trans)
 	}
 
 	factory.filterHistbyDate = function(starting, ending){
@@ -251,6 +265,7 @@ app.directive('coaWidget', function(){
 
 app.controller('JECtrl', function($scope, accountingService){
 	$scope.gls = accountingService.gls;
+	$scope.getTrans = accountingService.getTrans;
 	$scope.transactions = accountingService.transactions;
 
 	$scope.lines = ['0','1'];
