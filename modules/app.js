@@ -83,55 +83,26 @@ app.directive('appHeader', function(){
 
 
 
-app.factory('accountingService', function(){
+app.factory('accountingService', function($http){
 	var factory = {};
-	factory.transactions=[{
-		glDate: '2014-11-01',
-		glCode: '2100',
-		glDesc: 'Accounts Payable',
-		debit: 21434.96,
-		credit: null,
-		desc: 'Check Run'
-	},{
-		glDate: '2014-11-02',
-		glCode: '1100',
-		glDesc: 'Cash',
-		debit: null,
-		credit: 21434.96,
-		desc: 'Check Run'
-	},{
-		glDate: '2014-11-03',
-		glCode: '2100',
-		glDesc: 'Accounts Payable',
-		debit: null,
-		credit: 543,
-		desc: 'COGS'
-	},{
-		glDate: '2014-11-04',
-		glCode: '5000',
-		glDesc: 'Cost of Goods',
-		debit: 543,
-		credit: null,
-		desc: 'COGS'
-	}];
+	
+	factory.transactions = [];
+	
+	factory.getGL = function(){
+		gls = []
+		$http.get('../api/gl').
+		success(function(data,status){
+			_.each(data,function(gl){
+				factory.gls.push(gl);
+			})
+		});
+		return gls;
+	}
 
-	factory.gls=[{
-		code: '1100',
-		desc: 'Cash',
-		type: 'Asset'
-	},{code: '2100',
-		desc: 'Accounts Payable',
-		type: 'Liability'
-	},{code: '3100',
-		desc: 'Contributions',
-		type: 'Equity'
-	},{code: '4000',
-		desc: 'Revenue',
-		type: 'Income'
-	},{code: '5000',
-		desc: 'Cost of Goods',
-		type: 'Expense'
-	}];
+	factory.gls = factory.getGL();
+
+
+	factory.$http = $http;
 
 	factory.searchGL = function(query){
 		var result = _.find(this.gls, function(gl){return query === gl.code});
@@ -208,8 +179,9 @@ app.factory('accountingService', function(){
 
 })
 
-app.controller('AMCtrl', function($scope, accountingService){
+app.controller('AMCtrl', ['$scope','$http', 'accountingService',function AMCtrl($scope, $http, accountingService){
 	$scope.gls = accountingService.gls;
+	$scope.getGL = accountingService.getGL;
 	$scope.transactions = accountingService.transactions;
 	$scope.searchGL = accountingService.searchGL;
 
@@ -226,27 +198,32 @@ app.controller('AMCtrl', function($scope, accountingService){
 
 	$scope.submitGL = function(){
 		var gl = {
-			code: $scope.glCode,
+			code: ''+$scope.glCode,
 			desc: $scope.glDesc,
 			type: $scope.glType
 		}
-		var index;
+		var _id;
 		var existing = _.find($scope.gls, function(glAccount, i){
 			if( glAccount.code === gl.code){
+				_id = glAccount._id;
 				index = i;
 			}
 			return glAccount.code === gl.code;
 		});
 		if(!existing){
+			$http.post('../api/gl',gl)
 			$scope.gls.push(gl);
 		} else {
-			$scope.gls[index] = gl;
+			$scope.gls[index].code = gl.code;
+			$scope.gls[index].desc = gl.desc;
+			$scope.gls[index].type = gl.type;
+			$http.put('../api/gl/'+_id, $scope.gls[index]);
 		}
 		$scope.glCode = null;
 		$scope.glDesc = null;
 		$scope.glType = null;
 	};
-});
+}]);
 
 app.directive('amWidget', function(){
 	function link(scope,element,attrs){
