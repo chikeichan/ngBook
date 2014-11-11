@@ -28,17 +28,17 @@ app.config(function($routeProvider){
 app.directive('appHeader', function(){
 	function link(scope,element,attrs){
 		$('nav.navbar>div.tab').mouseenter(function(){
-			$(this).animate({
+			$(this).stop().animate({
 				top: '0px',
 				left: '5px'
-			},500);
+			},200);
 		});
 
 		$('nav.navbar>div.tab').mouseleave(function(){
-			$(this).animate({
+			$(this).stop().animate({
 				top: '-26px',
 				left: '0px'
-			},200);
+			},400);
 		});
 
 		$('#atab').click(function(){
