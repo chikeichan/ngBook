@@ -124,6 +124,7 @@ app.factory('accountingService', function($http){
 	factory.addJE = function(JEs){
 		var trans = []
 		_.each(JEs, function(JE,i){
+			factory.transactions.push(JE);
 			trans.push(JE);
 		})
 		$http.post('../api/trans',trans)
