@@ -429,12 +429,13 @@ app.controller('BSCtrl', function($scope, accountingService){
 
 	$scope.filter = function(sDate,eDate){
 		$scope.transactions = accountingService.transactions;
+		
+
+
+		$scope.transactions = $scope.filterHistbyDate("0000-00-00",$scope.eDate);
 		$scope.totalIncome = $scope.getTotalbyType('Income').credit - $scope.getTotalbyType('Income').debit;
 		$scope.totalExpense = $scope.getTotalbyType('Expense').credit - $scope.getTotalbyType('Expense').debit;
 		$scope.retainedEarning = $scope.totalIncome + $scope.totalExpense;
-
-
-		$scope.transactions = $scope.filterHistbyDate($scope.sDate,$scope.eDate);
 		$scope.assetGLs = $scope.getGLbyType('Asset');
 		$scope.liabilityGLs = $scope.getGLbyType('Liability');
 		$scope.equityGLs = $scope.getGLbyType('Equity');
