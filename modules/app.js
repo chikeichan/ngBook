@@ -14,6 +14,9 @@ app.config(function($routeProvider){
 		.when('/reports/PL', {
 			templateUrl: '../views/PL.html'
 		})
+		.when('/reports/BS', {
+			templateUrl: '../views/BS.html'
+		})
 		.otherwise({redirectTo:'/'});
 });
 
@@ -98,7 +101,6 @@ app.factory('accountingService', function($http){
 	}
 
 	factory.transactions = factory.getTrans();
-	console.log(factory.transactions);
 	
 	factory.getGL = function(){
 		gls = []
@@ -414,5 +416,38 @@ app.directive('plWidget', function(){
 	return {
 		restrict: 'EA',
 		templateUrl: '../views/widgets/PLWidget.html'
+	}
+})
+
+app.controller('BSCtrl', function($scope, accountingService){
+	$scope.gls = accountingService.gls;
+	
+	$scope.getGLbyType = accountingService.getGLbyType;
+	$scope.getTotalbyCode = accountingService.getTotalbyCode;
+	$scope.getTotalbyType = accountingService.getTotalbyType;
+	$scope.filterHistbyDate = accountingService.filterHistbyDate;
+
+	$scope.filter = function(sDate,eDate){
+		$scope.transactions = accountingService.transactions;
+		$scope.totalIncome = $scope.getTotalbyType('Income').credit - $scope.getTotalbyType('Income').debit;
+		$scope.totalExpense = $scope.getTotalbyType('Expense').credit - $scope.getTotalbyType('Expense').debit;
+		$scope.retainedEarning = $scope.totalIncome + $scope.totalExpense;
+
+
+		$scope.transactions = $scope.filterHistbyDate($scope.sDate,$scope.eDate);
+		$scope.assetGLs = $scope.getGLbyType('Asset');
+		$scope.liabilityGLs = $scope.getGLbyType('Liability');
+		$scope.equityGLs = $scope.getGLbyType('Equity');
+
+		$scope.totalAsset = -$scope.getTotalbyType('Asset').credit + $scope.getTotalbyType('Asset').debit;
+		$scope.totalLiability = $scope.getTotalbyType('Liability').credit - $scope.getTotalbyType('Liability').debit;
+		$scope.totalEquity = $scope.getTotalbyType('Equity').credit - $scope.getTotalbyType('Equity').debit + $scope.retainedEarning;
+	}
+});
+
+app.directive('bsWidget', function(){
+	return {
+		restrict: 'EA',
+		templateUrl: '../views/widgets/BSWidget.html'
 	}
 })

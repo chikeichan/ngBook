@@ -42,7 +42,7 @@
 	<tr class='JEHead'>
 		<td colspan='5'>GL Range: GL{{sCode}} -- GL{{eCode}}</td>
 	</tr>
-	<tr ng-repeat='JE in transactions | filter: query'>
+	<tr ng-repeat='JE in transactions | filter: query | orderBy:["glDate","_id"]'>
 		<td id='date'>{{JE.glDate}}</td>
 		<td>{{JE.glCode}} - {{JE.glDesc}}</td>
 		<td id='debit' class='number'>{{JE.debit}}</td>
