@@ -108,6 +108,7 @@ nav.navbar>div.tab {
 	top: -26px;
 	text-align: center;
 	margin: 0 0 0 20px;
+	line-height: 1;
 	display: inline-block;
 }
 
@@ -203,10 +204,14 @@ table#COA {
 	min-width: 400px;
 }
 
-coa-widget {
+am-widget {
+	display: inline-block;
+}
+
+coa-widget.secondary {
+	display: inline-block;
 	position: relative;
-	left: 345px;
-	top: -160px;
+	left: 80px;
 }
 
 button {
