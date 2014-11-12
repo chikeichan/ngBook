@@ -156,6 +156,10 @@ table.history td#debit,  table.history td#credit,table.history td#date{
 	width: 110px;
 }
 
+table.history td#batchID {
+	width: 80px;
+}
+
 td.number{
 	text-align: right;
 	padding-right: 30px

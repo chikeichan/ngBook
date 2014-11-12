@@ -15,6 +15,8 @@ var GL = new Schema({
 });
 
 var Trans = new Schema({
+	batch: String,
+	batchID: Number,
 	glDate: String,
 	glCode: String,
 	glDesc: String,
@@ -91,7 +93,6 @@ app.put('/api/gl/:id', function (req,res) {
 //Express: Read Transactions
 app.get('/api/trans', function(req,res){
 	TransModel.find({},function(err,trans){
-		console.log(trans)
 		res.send(trans);
 		console.log(trans.length + ' Transaction(s)');
 	});
@@ -100,8 +101,11 @@ app.get('/api/trans', function(req,res){
 //Express: Create Transactions
 app.post('/api/trans', function(req,res){
 	var trans = [];
+	var batchID;
 	_.each(req.body, function(tran){
 		var tran = new TransModel({
+			batch: tran.batch,
+			batchID : tran.batchID, 
 			glDate: tran.glDate,
 			glCode: tran.glCode,
 			glDesc: tran.glDesc,
@@ -119,11 +123,6 @@ app.post('/api/trans', function(req,res){
 	})
 		trans.push(tran);
 	})
-
-	console.log(trans);
-	
-	
-	
 })
 
 

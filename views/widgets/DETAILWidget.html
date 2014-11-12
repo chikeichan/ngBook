@@ -30,7 +30,8 @@
 <table class='history JEHist'>
 	
 	<tr class='header'>
-		<td id='date'>Posting Date</td>
+		<td id='date'>Date</td>
+		<td id='batchID'>Batch ID</td>
 		<td>GL Account</td>
 		<td id='debit'>Debit</td>
 		<td id='credit'>Credit</td>
@@ -44,6 +45,7 @@
 	</tr>
 	<tr ng-repeat='JE in transactions | filter: query | orderBy:["glDate","_id"]'>
 		<td id='date'>{{JE.glDate}}</td>
+		<td id='batchID'>{{JE.batch}}-{{JE.batchID}}</td>
 		<td>{{JE.glCode}} - {{JE.glDesc}}</td>
 		<td id='debit' class='number'>{{JE.debit | currency}}</td>
 		<td id='credit' class='number'>{{JE.credit | currency}}</td>

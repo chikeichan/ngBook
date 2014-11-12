@@ -192,6 +192,18 @@ app.factory('accountingService', function($http){
 		return total;
 	}
 
+	factory.getNextBatchID = function(batch){
+		var list = [''];
+		var transactions = factory.transactions;
+		_.each(transactions, function(tran){
+			if(tran.batch === batch){
+				list.push(tran.batchID);
+			}
+		})
+		list = _.uniq(list);
+		return list.length;
+	}
+
 	return factory;
 
 })
@@ -270,6 +282,7 @@ app.controller('JECtrl', function($scope, accountingService){
 	$scope.gls = accountingService.gls;
 	$scope.getTrans = accountingService.getTrans;
 	$scope.transactions = accountingService.transactions;
+	$scope.getNextBatchID = accountingService.getNextBatchID;
 
 	$scope.lines = ['0','1'];
 	$scope.glDebit = {};
@@ -299,8 +312,11 @@ app.controller('JECtrl', function($scope, accountingService){
 			return;
 		}
 		_.each($scope.lines, function(x){
+			var ID = $scope.getNextBatchID('JE');
 			if(!$scope.emptyLine(x)){
 				JEs.push({
+					batch: 'JE',
+					batchID: ID,
 					glDate: $scope.glDate,
 					glCode: $scope.glCode[x],
 					glDesc: $scope.searchGL($scope.glCode[x]).desc,
