@@ -46,10 +46,10 @@
 	<tr ng-repeat='JE in transactions | filter: query | orderBy:["glDate","_id"]'>
 		<td id='date'>{{JE.glDate}}</td>
 		<td id='batchID'>{{JE.batch}}-{{JE.batchID}}</td>
-		<td>{{JE.glCode}} - {{JE.glDesc}}</td>
+		<td>{{JE.glCode}} - {{JE.glDesc | limitTo: 20}}</td>
 		<td id='debit' class='number'>{{JE.debit | currency}}</td>
 		<td id='credit' class='number'>{{JE.credit | currency}}</td>
-		<td>{{JE.desc}}</td>
+		<td>{{JE.desc | limitTo: 20}}</td>
 	</tr>
 
 </table>

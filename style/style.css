@@ -151,6 +151,7 @@ table.JE tr.header {
 
 table.history td {
 	width: 185px;
+	overflow-x: hidden;
 }
 table.history td#debit,  table.history td#credit,table.history td#date{
 	width: 110px;
