@@ -14,6 +14,9 @@ app.config(function($routeProvider){
 		.when('/reports/PL', {
 			templateUrl: '../views/PL.html'
 		})
+		.when('/reports/BS', {
+			templateUrl: '../views/BS.html'
+		})
 		.otherwise({redirectTo:'/'});
 });
 
@@ -25,17 +28,17 @@ app.config(function($routeProvider){
 app.directive('appHeader', function(){
 	function link(scope,element,attrs){
 		$('nav.navbar>div.tab').mouseenter(function(){
-			$(this).animate({
+			$(this).stop().animate({
 				top: '0px',
 				left: '5px'
-			},500);
+			},200);
 		});
 
 		$('nav.navbar>div.tab').mouseleave(function(){
-			$(this).animate({
+			$(this).stop().animate({
 				top: '-26px',
 				left: '0px'
-			},200);
+			},400);
 		});
 
 		$('#atab').click(function(){
@@ -83,55 +86,37 @@ app.directive('appHeader', function(){
 
 
 
-app.factory('accountingService', function(){
+app.factory('accountingService', function($http){
 	var factory = {};
-	factory.transactions=[{
-		glDate: '2014-11-01',
-		glCode: '2100',
-		glDesc: 'Accounts Payable',
-		debit: 21434.96,
-		credit: null,
-		desc: 'Check Run'
-	},{
-		glDate: '2014-11-02',
-		glCode: '1100',
-		glDesc: 'Cash',
-		debit: null,
-		credit: 21434.96,
-		desc: 'Check Run'
-	},{
-		glDate: '2014-11-03',
-		glCode: '2100',
-		glDesc: 'Accounts Payable',
-		debit: null,
-		credit: 543,
-		desc: 'COGS'
-	},{
-		glDate: '2014-11-04',
-		glCode: '5000',
-		glDesc: 'Cost of Goods',
-		debit: 543,
-		credit: null,
-		desc: 'COGS'
-	}];
+	
+	factory.getTrans = function(){
+		trans = []
+		$http.get('../api/trans').
+			success(function(data,status){
+				_.each(data,function(tran){
+					trans.push(tran);
+				})
+			});
+		return trans;
+	}
 
-	factory.gls=[{
-		code: '1100',
-		desc: 'Cash',
-		type: 'Asset'
-	},{code: '2100',
-		desc: 'Accounts Payable',
-		type: 'Liability'
-	},{code: '3100',
-		desc: 'Contributions',
-		type: 'Equity'
-	},{code: '4000',
-		desc: 'Revenue',
-		type: 'Income'
-	},{code: '5000',
-		desc: 'Cost of Goods',
-		type: 'Expense'
-	}];
+	factory.transactions = factory.getTrans();
+	
+	factory.getGL = function(){
+		gls = []
+		$http.get('../api/gl').
+		success(function(data,status){
+			_.each(data,function(gl){
+				factory.gls.push(gl);
+			})
+		});
+		return gls;
+	}
+
+	factory.gls = factory.getGL();
+
+
+	factory.$http = $http;
 
 	factory.searchGL = function(query){
 		var result = _.find(this.gls, function(gl){return query === gl.code});
@@ -139,9 +124,12 @@ app.factory('accountingService', function(){
 	}
 
 	factory.addJE = function(JEs){
+		var trans = []
 		_.each(JEs, function(JE,i){
 			factory.transactions.push(JE);
+			trans.push(JE);
 		})
+		$http.post('../api/trans',trans)
 	}
 
 	factory.filterHistbyDate = function(starting, ending){
@@ -208,8 +196,9 @@ app.factory('accountingService', function(){
 
 })
 
-app.controller('AMCtrl', function($scope, accountingService){
+app.controller('AMCtrl', ['$scope','$http', 'accountingService',function AMCtrl($scope, $http, accountingService){
 	$scope.gls = accountingService.gls;
+	$scope.getGL = accountingService.getGL;
 	$scope.transactions = accountingService.transactions;
 	$scope.searchGL = accountingService.searchGL;
 
@@ -226,27 +215,32 @@ app.controller('AMCtrl', function($scope, accountingService){
 
 	$scope.submitGL = function(){
 		var gl = {
-			code: $scope.glCode,
+			code: ''+$scope.glCode,
 			desc: $scope.glDesc,
 			type: $scope.glType
 		}
-		var index;
+		var _id;
 		var existing = _.find($scope.gls, function(glAccount, i){
 			if( glAccount.code === gl.code){
+				_id = glAccount._id;
 				index = i;
 			}
 			return glAccount.code === gl.code;
 		});
 		if(!existing){
+			$http.post('../api/gl',gl)
 			$scope.gls.push(gl);
 		} else {
-			$scope.gls[index] = gl;
+			$scope.gls[index].code = gl.code;
+			$scope.gls[index].desc = gl.desc;
+			$scope.gls[index].type = gl.type;
+			$http.put('../api/gl/'+_id, $scope.gls[index]);
 		}
 		$scope.glCode = null;
 		$scope.glDesc = null;
 		$scope.glType = null;
 	};
-});
+}]);
 
 app.directive('amWidget', function(){
 	function link(scope,element,attrs){
@@ -274,6 +268,7 @@ app.directive('coaWidget', function(){
 
 app.controller('JECtrl', function($scope, accountingService){
 	$scope.gls = accountingService.gls;
+	$scope.getTrans = accountingService.getTrans;
 	$scope.transactions = accountingService.transactions;
 
 	$scope.lines = ['0','1'];
@@ -421,5 +416,39 @@ app.directive('plWidget', function(){
 	return {
 		restrict: 'EA',
 		templateUrl: '../views/widgets/PLWidget.html'
+	}
+})
+
+app.controller('BSCtrl', function($scope, accountingService){
+	$scope.gls = accountingService.gls;
+	
+	$scope.getGLbyType = accountingService.getGLbyType;
+	$scope.getTotalbyCode = accountingService.getTotalbyCode;
+	$scope.getTotalbyType = accountingService.getTotalbyType;
+	$scope.filterHistbyDate = accountingService.filterHistbyDate;
+
+	$scope.filter = function(sDate,eDate){
+		$scope.transactions = accountingService.transactions;
+		
+
+
+		$scope.transactions = $scope.filterHistbyDate("0000-00-00",$scope.eDate);
+		$scope.totalIncome = $scope.getTotalbyType('Income').credit - $scope.getTotalbyType('Income').debit;
+		$scope.totalExpense = $scope.getTotalbyType('Expense').credit - $scope.getTotalbyType('Expense').debit;
+		$scope.retainedEarning = $scope.totalIncome + $scope.totalExpense;
+		$scope.assetGLs = $scope.getGLbyType('Asset');
+		$scope.liabilityGLs = $scope.getGLbyType('Liability');
+		$scope.equityGLs = $scope.getGLbyType('Equity');
+
+		$scope.totalAsset = -$scope.getTotalbyType('Asset').credit + $scope.getTotalbyType('Asset').debit;
+		$scope.totalLiability = $scope.getTotalbyType('Liability').credit - $scope.getTotalbyType('Liability').debit;
+		$scope.totalEquity = $scope.getTotalbyType('Equity').credit - $scope.getTotalbyType('Equity').debit + $scope.retainedEarning;
+	}
+});
+
+app.directive('bsWidget', function(){
+	return {
+		restrict: 'EA',
+		templateUrl: '../views/widgets/BSWidget.html'
 	}
 })

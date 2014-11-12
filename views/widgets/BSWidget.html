@@ -1,0 +1,82 @@
+<h1>Balance Sheet</h1>
+
+
+<table class='history'>
+	<tr>
+		<td>Ending Date:</td>
+		<td><input type='date' ng-model='eDate'></td>
+		<td></td>
+		<td><button ng-click='filter()'>Select</button></td>
+	</tr>
+
+	<tr class='header'>
+		<td>Asset</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr ng-repeat='gl in assetGLs | orderBy: "code"'>
+		<td>{{gl.code}}</td>
+		<td>{{gl.desc}}</td>
+		<td></td>
+		<td class='number'>{{-getTotalbyCode(gl.code).credit + getTotalbyCode(gl.code).debit | currency}}</td>
+	</tr>
+	<tr id='subtotal'>
+		<td></td>
+		<td></td>
+		<td>Total Asset:</td>
+		<td class='number'>{{totalAsset | currency}}</td>
+	</tr>
+	<tr class='header'>
+		<td>Liability</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr ng-repeat='gl in liabilityGLs | orderBy: "code"'>
+		<td>{{gl.code}}</td>
+		<td>{{gl.desc}}</td>
+		<td></td>
+		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit | currency}}</td>
+	</tr>
+	<tr id='subtotal'>
+		<td></td>
+		<td></td>
+		<td>Total Liability:</td>
+		<td class='number'>{{totalLiability | currency}}</td>
+	</tr>
+	<tr class='header'>
+		<td>Equity</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr ng-repeat='gl in equityGLs | orderBy: "code"'>
+		<td>{{gl.code}}</td>
+		<td>{{gl.desc}}</td>
+		<td></td>
+		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit | currency}}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Retained Earning</td>
+		<td></td>
+		<td class='number'>{{retainedEarning | currency}}</td>
+	</tr>
+
+	<tr id='subtotal'>
+		<td></td>
+		<td></td>
+		<td>Total Equity:</td>
+		<td class='number'>{{totalEquity | currency}}</td>
+	</tr>
+
+	<tr id='bottomline'>
+		<td></td>
+		<td></td>
+		<td>Total Liability + Equity:</td>
+		<td class='number'>{{totalLiability + totalEquity | currency}}</td>
+	</tr>
+
+</div>
+</table>

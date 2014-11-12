@@ -47,6 +47,7 @@ footer {
 body {
 	font-size: 14px;
 	font-family: Josefin Sans;
+	line-height: 1.5;
 }
 
 h1 {
@@ -107,6 +108,7 @@ nav.navbar>div.tab {
 	top: -26px;
 	text-align: center;
 	margin: 0 0 0 20px;
+	line-height: 1;
 	display: inline-block;
 }
 
@@ -117,14 +119,15 @@ nav.navbar a {
 
 div#content {
 	background-color: white;
-	height: 800px;
-	width: 800px;
+	height: auto;
+	width: 900px;
 	position: relative;
 	top: 120px;
 	left: 73px;
 	box-shadow: 0 0 2px grey;
 	border-radius: 5px;
-	margin-bottom: 25px;
+	margin: 0 0 25px 0;
+	padding: 0 0 50px 0;
 }
 
 content {
@@ -147,7 +150,7 @@ table.JE tr.header {
 }
 
 table.history td {
-	width: 160px;
+	width: 185px;
 }
 table.history td#debit,  table.history td#credit,table.history td#date{
 	width: 110px;
@@ -185,12 +188,13 @@ input[type='number'] {
 	background-color: #FFBC6F;
 	margin: 0 0 10px 0;
 	box-shadow: 0 0 3px rgb(200, 200, 200);
+	border: 2px solid white;
 }
 
 .aNav>div> a, .rNav>div>a {
 	position: relative;
 	font-size: 24px;
-	top: 9px;
+	top: 8px;
 	font-weight: bold;
 }
 
@@ -199,18 +203,30 @@ table#COA {
 	min-width: 400px;
 }
 
-coa-widget {
+am-widget {
+	display: inline-block;
+}
+
+coa-widget.secondary {
+	display: inline-block;
 	position: relative;
-	left: 345px;
-	top: -160px;
+	left: 80px;
 }
 
 button {
 	width: 75px;
 }
 
-detail-widget {
+detail-widget{
 	display: block;
 	position: relative;
+	padding: 0 0 50px 0;
+
+}
+
+detail-widget.secondary{
+	display: block;
+	position: relative;
+	padding: 50px 0 50px 0;
 
 }

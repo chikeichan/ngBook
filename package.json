@@ -2,9 +2,15 @@
 	"name": "express-server",
 	"version": "0.0.1",
 	"private":true,
-	"dependencies":{
-		"express":"*",
-		"jade":"*"
-	}
+  "dependencies": {
+    "body-parser": "^1.9.2",
+    "express": "*",
+    "jade": "*",
+    "mongodb": "*",
+    "backbone": "*",
+    "mongoose": "*",
+    "underscore":"*",
+    "jquery": "*"
+  }
 
 }
