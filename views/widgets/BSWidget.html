@@ -19,13 +19,13 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td class='number'>{{-getTotalbyCode(gl.code).credit + getTotalbyCode(gl.code).debit}}</td>
+		<td class='number'>{{-getTotalbyCode(gl.code).credit + getTotalbyCode(gl.code).debit | currency}}</td>
 	</tr>
 	<tr id='subtotal'>
 		<td></td>
 		<td></td>
 		<td>Total Asset:</td>
-		<td class='number'>{{totalAsset}}</td>
+		<td class='number'>{{totalAsset | currency}}</td>
 	</tr>
 	<tr class='header'>
 		<td>Liability</td>
@@ -37,13 +37,13 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit}}</td>
+		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit | currency}}</td>
 	</tr>
 	<tr id='subtotal'>
 		<td></td>
 		<td></td>
 		<td>Total Liability:</td>
-		<td class='number'>{{totalLiability}}</td>
+		<td class='number'>{{totalLiability | currency}}</td>
 	</tr>
 	<tr class='header'>
 		<td>Equity</td>
@@ -55,27 +55,27 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit}}</td>
+		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit | currency}}</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td>Retained Earning</td>
 		<td></td>
-		<td class='number'>{{retainedEarning}}</td>
+		<td class='number'>{{retainedEarning | currency}}</td>
 	</tr>
 
 	<tr id='subtotal'>
 		<td></td>
 		<td></td>
 		<td>Total Equity:</td>
-		<td class='number'>{{totalEquity}}</td>
+		<td class='number'>{{totalEquity | currency}}</td>
 	</tr>
 
 	<tr id='bottomline'>
 		<td></td>
 		<td></td>
 		<td>Total Liability + Equity:</td>
-		<td class='number'>{{totalLiability + totalEquity}}</td>
+		<td class='number'>{{totalLiability + totalEquity | currency}}</td>
 	</tr>
 
 </div>

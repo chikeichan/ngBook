@@ -120,13 +120,13 @@ nav.navbar a {
 div#content {
 	background-color: white;
 	height: auto;
-	width: 800px;
+	width: 900px;
 	position: relative;
 	top: 120px;
 	left: 73px;
 	box-shadow: 0 0 2px grey;
 	border-radius: 5px;
-	margin-bottom: 25px;
+	margin: 0 0 25px 0;
 	padding: 0 0 50px 0;
 }
 
@@ -150,7 +150,7 @@ table.JE tr.header {
 }
 
 table.history td {
-	width: 160px;
+	width: 185px;
 }
 table.history td#debit,  table.history td#credit,table.history td#date{
 	width: 110px;

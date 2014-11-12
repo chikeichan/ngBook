@@ -23,13 +23,13 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit}}</td>
+		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit | currency}}</td>
 	</tr>
 	<tr id='subtotal'>
 		<td></td>
 		<td></td>
 		<td>Total Income:</td>
-		<td class='number'>{{totalIncome}}</td>
+		<td class='number'>{{totalIncome | currency}}</td>
 	</tr>
 	<tr class='header'>
 		<td>Expense</td>
@@ -41,20 +41,20 @@
 		<td>{{gl.code}}</td>
 		<td>{{gl.desc}}</td>
 		<td></td>
-		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit}}</td>
+		<td class='number'>{{getTotalbyCode(gl.code).credit - getTotalbyCode(gl.code).debit | currency}}</td>
 	</tr>
 	<tr id='subtotal'>
 		<td></td>
 		<td></td>
 		<td>Total Expense:</td>
-		<td class='number'>{{totalExpense}}</td>
+		<td class='number'>{{totalExpense | currency}}</td>
 	</tr>
 
 	<tr id='bottomline'>
 		<td></td>
 		<td></td>
 		<td>Profit/(Loss):</td>
-		<td class='number'>{{totalIncome + totalExpense}}</td>
+		<td class='number'>{{totalIncome + totalExpense | currency}}</td>
 	</tr>
 
 </div>
