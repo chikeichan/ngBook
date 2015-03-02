@@ -17,7 +17,10 @@ app.config(function($routeProvider){
 		.when('/reports/BS', {
 			templateUrl: '../views/BS.html'
 		})
-		.otherwise({redirectTo:'/'});
+	  .when('/', {
+			templateUrl: '../views/detail.html'
+		})
+		// .otherwise({redirectTo:'/'});
 });
 
 
